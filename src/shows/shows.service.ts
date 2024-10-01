@@ -1,26 +1,51 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { EntityManager, Repository } from 'typeorm';
+
 import { CreateShowDto } from './dto/create-show.dto';
 import { UpdateShowDto } from './dto/update-show.dto';
+import { Show } from './entities/show.entity';
 
 @Injectable()
 export class ShowsService {
-  create(createShowDto: CreateShowDto) {
-    return 'This action adds a new show';
+  constructor(
+    @InjectRepository(Show)
+    private readonly showsRepository: Repository<Show>,
+    private readonly entityManager: EntityManager,
+  ) {}
+
+  async create(createShowDto: CreateShowDto): Promise<Show> {
+    const show = new Show(createShowDto);
+
+    return await this.entityManager.save(show);
   }
 
-  findAll() {
-    return `This action returns all shows`;
+  async findAll(): Promise<Show[]> {
+    return await this.showsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} show`;
+  async findOne(id: number): Promise<Show> {
+    return await this.showsRepository.findOne({
+      where: { id },
+      relations: {
+        type: true,
+        languages: true,
+        genres: true,
+        audioTechnologies: true,
+        videoTechnologies: true,
+        sessions: true,
+        photos: true,
+      },
+    });
   }
 
-  update(id: number, updateShowDto: UpdateShowDto) {
-    return `This action updates a #${id} show`;
+  async update(id: number, updateShowDto: UpdateShowDto): Promise<Show> {
+    const show = await this.showsRepository.findOneBy({ id });
+
+    return await this.entityManager.save(new Show({ ...show, ...updateShowDto }));
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} show`;
+  async remove(id: number) {
+    await this.showsRepository.delete(id);
   }
 }

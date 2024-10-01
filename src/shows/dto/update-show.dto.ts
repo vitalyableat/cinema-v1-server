@@ -1,4 +1,16 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateShowDto } from './create-show.dto';
-
-export class UpdateShowDto extends PartialType(CreateShowDto) {}
+export class UpdateShowDto {
+  duration: number;
+  title: string;
+  description: string;
+  preview: string;
+  rentalStart: Date;
+  rentalEnd: Date;
+  age: number;
+  trailer: string;
+  available: boolean;
+  showTypeId: number;
+  languageIds: number[];
+  genreIds: number[];
+  audioTechnologyIds: number[];
+  videoTechnologyIds: number[];
+}

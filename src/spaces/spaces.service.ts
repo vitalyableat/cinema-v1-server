@@ -1,26 +1,40 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { EntityManager, Repository } from 'typeorm';
+
 import { CreateSpaceDto } from './dto/create-space.dto';
 import { UpdateSpaceDto } from './dto/update-space.dto';
+import { Space } from './entities/space.entity';
 
 @Injectable()
 export class SpacesService {
-  create(createSpaceDto: CreateSpaceDto) {
-    return 'This action adds a new space';
+  constructor(
+    @InjectRepository(Space)
+    private readonly spacesRepository: Repository<Space>,
+    private readonly entityManager: EntityManager,
+  ) {}
+
+  async create(createSpaceDto: CreateSpaceDto): Promise<Space> {
+    const space = new Space(createSpaceDto);
+
+    return await this.entityManager.save(space);
   }
 
-  findAll() {
-    return `This action returns all spaces`;
+  async findAll(): Promise<Space[]> {
+    return await this.spacesRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} space`;
+  async findOne(id: number): Promise<Space> {
+    return await this.spacesRepository.findOne({ where: { id }, relations: { lounges: true } });
   }
 
-  update(id: number, updateSpaceDto: UpdateSpaceDto) {
-    return `This action updates a #${id} space`;
+  async update(id: number, updateSpaceDto: UpdateSpaceDto): Promise<Space> {
+    const space = await this.spacesRepository.findOneBy({ id });
+
+    return await this.entityManager.save(new Space({ ...space, ...updateSpaceDto }));
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} space`;
+  async remove(id: number) {
+    await this.spacesRepository.delete(id);
   }
 }

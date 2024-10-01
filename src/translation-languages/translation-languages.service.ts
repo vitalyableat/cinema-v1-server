@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { EntityManager, Repository } from 'typeorm';
+
 import { CreateTranslationLanguageDto } from './dto/create-translation-language.dto';
 import { UpdateTranslationLanguageDto } from './dto/update-translation-language.dto';
+import { TranslationLanguage } from './entities/translation-language.entity';
 
 @Injectable()
 export class TranslationLanguagesService {
-  create(createTranslationLanguageDto: CreateTranslationLanguageDto) {
-    return 'This action adds a new translationLanguage';
+  constructor(
+    @InjectRepository(TranslationLanguage)
+    private readonly translationLanguagesRepository: Repository<TranslationLanguage>,
+    private readonly entityManager: EntityManager,
+  ) {}
+
+  async create(createTranslationLanguageDto: CreateTranslationLanguageDto): Promise<TranslationLanguage> {
+    const translationLanguage = new TranslationLanguage(createTranslationLanguageDto);
+
+    return await this.entityManager.save(translationLanguage);
   }
 
-  findAll() {
-    return `This action returns all translationLanguages`;
+  async findAll(): Promise<TranslationLanguage[]> {
+    return await this.translationLanguagesRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} translationLanguage`;
+  async update(id: number, updateTranslationLanguageDto: UpdateTranslationLanguageDto): Promise<TranslationLanguage> {
+    const translationLanguage = await this.translationLanguagesRepository.findOneBy({ id });
+
+    return await this.entityManager.save(
+      new TranslationLanguage({ ...translationLanguage, ...updateTranslationLanguageDto }),
+    );
   }
 
-  update(id: number, updateTranslationLanguageDto: UpdateTranslationLanguageDto) {
-    return `This action updates a #${id} translationLanguage`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} translationLanguage`;
+  async remove(id: number) {
+    await this.translationLanguagesRepository.delete(id);
   }
 }

@@ -1,1 +1,3 @@
-export class CreateVideoTechnologyDto {}
+export class CreateVideoTechnologyDto {
+  name: string;
+}

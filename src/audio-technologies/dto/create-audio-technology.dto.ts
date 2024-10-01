@@ -1,1 +1,3 @@
-export class CreateAudioTechnologyDto {}
+export class CreateAudioTechnologyDto {
+  name: string;
+}

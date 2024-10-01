@@ -1,4 +1,8 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateTicketDto } from './create-ticket.dto';
+import { TicketStatusEnum } from '../enums/ticket-status.enum';
 
-export class UpdateTicketDto extends PartialType(CreateTicketDto) {}
+export class UpdateTicketDto {
+  status: TicketStatusEnum;
+  sessionPlaceId: number;
+  sessionId: number;
+  userId: number;
+}

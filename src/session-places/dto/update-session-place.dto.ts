@@ -1,4 +1,9 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateSessionPlaceDto } from './create-session-place.dto';
-
-export class UpdateSessionPlaceDto extends PartialType(CreateSessionPlaceDto) {}
+export class UpdateSessionPlaceDto {
+  available: boolean;
+  row: number;
+  column: number;
+  price: number;
+  sessionId: number;
+  loungeId: number;
+  seatId: number;
+}

@@ -1,26 +1,40 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { EntityManager, Repository } from 'typeorm';
+
 import { CreateLoungeDto } from './dto/create-lounge.dto';
 import { UpdateLoungeDto } from './dto/update-lounge.dto';
+import { Lounge } from './entities/lounge.entity';
 
 @Injectable()
 export class LoungesService {
-  create(createLoungeDto: CreateLoungeDto) {
-    return 'This action adds a new lounge';
+  constructor(
+    @InjectRepository(Lounge)
+    private readonly loungesRepository: Repository<Lounge>,
+    private readonly entityManager: EntityManager,
+  ) {}
+
+  async create(createLoungeDto: CreateLoungeDto): Promise<Lounge> {
+    const lounge = new Lounge(createLoungeDto);
+
+    return await this.entityManager.save(lounge);
   }
 
-  findAll() {
-    return `This action returns all lounges`;
+  async findAll(): Promise<Lounge[]> {
+    return await this.loungesRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} lounge`;
+  async findOne(id: number): Promise<Lounge> {
+    return await this.loungesRepository.findOne({ where: { id }, relations: { places: true } });
   }
 
-  update(id: number, updateLoungeDto: UpdateLoungeDto) {
-    return `This action updates a #${id} lounge`;
+  async update(id: number, updateLoungeDto: UpdateLoungeDto): Promise<Lounge> {
+    const lounge = await this.loungesRepository.findOneBy({ id });
+
+    return await this.entityManager.save(new Lounge({ ...lounge, ...updateLoungeDto }));
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} lounge`;
+  async remove(id: number) {
+    await this.loungesRepository.delete(id);
   }
 }

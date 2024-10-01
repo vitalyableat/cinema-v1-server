@@ -1,29 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { VideoTechnologiesService } from './video-technologies.service';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+
 import { CreateVideoTechnologyDto } from './dto/create-video-technology.dto';
 import { UpdateVideoTechnologyDto } from './dto/update-video-technology.dto';
+import { VideoTechnology } from './entities/video-technology.entity';
+import { VideoTechnologiesService } from './video-technologies.service';
 
 @Controller('video-technologies')
 export class VideoTechnologiesController {
   constructor(private readonly videoTechnologiesService: VideoTechnologiesService) {}
 
   @Post()
-  create(@Body() createVideoTechnologyDto: CreateVideoTechnologyDto) {
+  create(@Body() createVideoTechnologyDto: CreateVideoTechnologyDto): Promise<VideoTechnology> {
     return this.videoTechnologiesService.create(createVideoTechnologyDto);
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<VideoTechnology[]> {
     return this.videoTechnologiesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.videoTechnologiesService.findOne(+id);
-  }
-
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateVideoTechnologyDto: UpdateVideoTechnologyDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateVideoTechnologyDto: UpdateVideoTechnologyDto,
+  ): Promise<VideoTechnology> {
     return this.videoTechnologiesService.update(+id, updateVideoTechnologyDto);
   }
 

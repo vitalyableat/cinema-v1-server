@@ -1,26 +1,25 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { EntityManager, Repository } from 'typeorm';
+
 import { CreateShowPhotoDto } from './dto/create-show-photo.dto';
-import { UpdateShowPhotoDto } from './dto/update-show-photo.dto';
+import { ShowPhoto } from './entities/show-photo.entity';
 
 @Injectable()
 export class ShowPhotosService {
-  create(createShowPhotoDto: CreateShowPhotoDto) {
-    return 'This action adds a new showPhoto';
+  constructor(
+    @InjectRepository(ShowPhoto)
+    private readonly showPhotosRepository: Repository<ShowPhoto>,
+    private readonly entityManager: EntityManager,
+  ) {}
+
+  async create(createShowPhotoDto: CreateShowPhotoDto): Promise<ShowPhoto> {
+    const showPhoto = new ShowPhoto(createShowPhotoDto);
+
+    return await this.entityManager.save(showPhoto);
   }
 
-  findAll() {
-    return `This action returns all showPhotos`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} showPhoto`;
-  }
-
-  update(id: number, updateShowPhotoDto: UpdateShowPhotoDto) {
-    return `This action updates a #${id} showPhoto`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} showPhoto`;
+  async remove(id: number) {
+    await this.showPhotosRepository.delete(id);
   }
 }

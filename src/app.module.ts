@@ -12,7 +12,7 @@ import { SeatsModule } from './seats/seats.module';
 import { SessionPlacesModule } from './session-places/session-places.module';
 import { SessionsModule } from './sessions/sessions.module';
 import { ShowPhotosModule } from './show-photos/show-photos.module';
-import { ShowTypeModule } from './show-type/show-type.module';
+import { ShowTypesModule } from './show-types/show-types.module';
 import { ShowsModule } from './shows/shows.module';
 import { SpacesModule } from './spaces/spaces.module';
 import { TicketsModule } from './tickets/tickets.module';
@@ -41,7 +41,7 @@ import { VideoTechnologiesModule } from './video-technologies/video-technologies
     AudioTechnologiesModule,
     VideoTechnologiesModule,
     LanguagesModule,
-    ShowTypeModule,
+    ShowTypesModule,
     ShowPhotosModule,
   ],
   controllers: [],

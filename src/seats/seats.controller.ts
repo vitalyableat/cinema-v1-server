@@ -1,29 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { SeatsService } from './seats.service';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+
 import { CreateSeatDto } from './dto/create-seat.dto';
 import { UpdateSeatDto } from './dto/update-seat.dto';
+import { Seat } from './entities/seat.entity';
+import { SeatsService } from './seats.service';
 
 @Controller('seats')
 export class SeatsController {
   constructor(private readonly seatsService: SeatsService) {}
 
   @Post()
-  create(@Body() createSeatDto: CreateSeatDto) {
+  create(@Body() createSeatDto: CreateSeatDto): Promise<Seat> {
     return this.seatsService.create(createSeatDto);
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<Seat[]> {
     return this.seatsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.seatsService.findOne(+id);
-  }
-
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSeatDto: UpdateSeatDto) {
+  update(@Param('id') id: string, @Body() updateSeatDto: UpdateSeatDto): Promise<Seat> {
     return this.seatsService.update(+id, updateSeatDto);
   }
 

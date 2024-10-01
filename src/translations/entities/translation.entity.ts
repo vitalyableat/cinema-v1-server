@@ -7,4 +7,8 @@ export class Translation {
 
   @Column()
   value: string;
+
+  constructor(entity: Partial<Translation>) {
+    Object.assign(this, entity);
+  }
 }
