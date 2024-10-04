@@ -9,5 +9,6 @@ import { ShowTypesService } from './show-types.service';
   imports: [TypeOrmModule.forFeature([ShowType])],
   controllers: [ShowTypesController],
   providers: [ShowTypesService],
+  exports: [TypeOrmModule],
 })
 export class ShowTypesModule {}

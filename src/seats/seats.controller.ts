@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 import { CreateSeatDto } from './dto/create-seat.dto';
 import { UpdateSeatDto } from './dto/update-seat.dto';
@@ -10,8 +11,9 @@ export class SeatsController {
   constructor(private readonly seatsService: SeatsService) {}
 
   @Post()
-  create(@Body() createSeatDto: CreateSeatDto): Promise<Seat> {
-    return this.seatsService.create(createSeatDto);
+  @UseInterceptors(FileInterceptor('img'))
+  create(@UploadedFile() img: Express.Multer.File, @Body() createSeatDto: CreateSeatDto): Promise<Seat> {
+    return this.seatsService.create({ ...createSeatDto, img });
   }
 
   @Get()
@@ -20,8 +22,13 @@ export class SeatsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSeatDto: UpdateSeatDto): Promise<Seat> {
-    return this.seatsService.update(+id, updateSeatDto);
+  @UseInterceptors(FileInterceptor('img'))
+  update(
+    @Param('id') id: string,
+    @UploadedFile() img: Express.Multer.File,
+    @Body() updateSeatDto: UpdateSeatDto,
+  ): Promise<Seat> {
+    return this.seatsService.update(+id, { ...updateSeatDto, img });
   }
 
   @Delete(':id')

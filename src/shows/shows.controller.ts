@@ -1,5 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
+import { ParseMultipartFormDataPipe } from '../pipes/parse-multipart-form-data.pipe';
 import { CreateShowDto } from './dto/create-show.dto';
 import { UpdateShowDto } from './dto/update-show.dto';
 import { Show } from './entities/show.entity';
@@ -10,8 +12,12 @@ export class ShowsController {
   constructor(private readonly showsService: ShowsService) {}
 
   @Post()
-  create(@Body() createShowDto: CreateShowDto): Promise<Show> {
-    return this.showsService.create(createShowDto);
+  @UseInterceptors(FileInterceptor('preview'))
+  create(
+    @UploadedFile() preview: Express.Multer.File,
+    @Body(ParseMultipartFormDataPipe) createShowDto: CreateShowDto,
+  ): Promise<Show> {
+    return this.showsService.create({ ...createShowDto, preview });
   }
 
   @Get()
@@ -25,8 +31,13 @@ export class ShowsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateShowDto: UpdateShowDto): Promise<Show> {
-    return this.showsService.update(+id, updateShowDto);
+  @UseInterceptors(FileInterceptor('preview'))
+  update(
+    @Param('id') id: string,
+    @UploadedFile() preview: Express.Multer.File,
+    @Body(ParseMultipartFormDataPipe) updateShowDto: UpdateShowDto,
+  ): Promise<Show> {
+    return this.showsService.update(+id, { ...updateShowDto, preview });
   }
 
   @Delete(':id')

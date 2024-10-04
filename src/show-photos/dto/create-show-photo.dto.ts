@@ -1,4 +1,6 @@
+import { Express } from 'express';
+
 export class CreateShowPhotoDto {
-  url: string;
+  img: Express.Multer.File;
   showId: number;
 }

@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 import { CreateShowPhotoDto } from './dto/create-show-photo.dto';
 import { ShowPhoto } from './entities/show-photo.entity';
@@ -9,8 +10,9 @@ export class ShowPhotosController {
   constructor(private readonly showPhotosService: ShowPhotosService) {}
 
   @Post()
-  create(@Body() createShowPhotoDto: CreateShowPhotoDto): Promise<ShowPhoto> {
-    return this.showPhotosService.create(createShowPhotoDto);
+  @UseInterceptors(FileInterceptor('img'))
+  create(@UploadedFile() img: Express.Multer.File, @Body() createShowPhotoDto: CreateShowPhotoDto): Promise<ShowPhoto> {
+    return this.showPhotosService.create({ ...createShowPhotoDto, img });
   }
 
   @Delete(':id')

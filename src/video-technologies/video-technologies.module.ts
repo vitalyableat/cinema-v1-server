@@ -9,5 +9,6 @@ import { VideoTechnologiesService } from './video-technologies.service';
   imports: [TypeOrmModule.forFeature([VideoTechnology])],
   controllers: [VideoTechnologiesController],
   providers: [VideoTechnologiesService],
+  exports: [TypeOrmModule],
 })
 export class VideoTechnologiesModule {}

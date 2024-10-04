@@ -4,6 +4,7 @@ import { AudioTechnology } from '../../audio-technologies/entities/audio-technol
 import { AbstractEntity } from '../../database/abstract.entity';
 import { Language } from '../../languages/entities/language.entity';
 import { Lounge } from '../../lounges/entities/lounge.entity';
+import { SessionPlace } from '../../session-places/entities/session-place.entity';
 import { Show } from '../../shows/entities/show.entity';
 import { Ticket } from '../../tickets/entities/ticket.entity';
 import { VideoTechnology } from '../../video-technologies/entities/video-technology.entity';
@@ -36,4 +37,7 @@ export class Session extends AbstractEntity<Session> {
 
   @OneToMany(() => Ticket, (ticket) => ticket.session)
   tickets: Ticket[];
+
+  @OneToMany(() => SessionPlace, (sessionPlace) => sessionPlace.session)
+  sessionPlaces: SessionPlace[];
 }

@@ -1,4 +1,7 @@
+import { SessionPlace } from '../../session-places/entities/session-place.entity';
+import { Session } from '../../sessions/entities/session.entity';
+
 export class CreateTicketDto {
-  sessionPlaceId: number;
-  sessionId: number;
+  place: SessionPlace;
+  session: Session;
 }

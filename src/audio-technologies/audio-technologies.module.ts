@@ -9,5 +9,6 @@ import { AudioTechnology } from './entities/audio-technology.entity';
   imports: [TypeOrmModule.forFeature([AudioTechnology])],
   controllers: [AudioTechnologiesController],
   providers: [AudioTechnologiesService],
+  exports: [TypeOrmModule],
 })
 export class AudioTechnologiesModule {}

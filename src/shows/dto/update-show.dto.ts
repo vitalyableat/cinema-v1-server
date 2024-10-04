@@ -1,8 +1,10 @@
+import { Express } from 'express';
+
 export class UpdateShowDto {
   duration: number;
   title: string;
   description: string;
-  preview: string;
+  preview: Express.Multer.File;
   rentalStart: Date;
   rentalEnd: Date;
   age: number;

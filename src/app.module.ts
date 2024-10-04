@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import { AudioTechnologiesModule } from './audio-technologies/audio-technologies.module';
 import { DatabaseModule } from './database/database.module';
+import { FilesModule } from './files/files.module';
 import { GenresModule } from './genres/genres.module';
 import { LanguagesModule } from './languages/languages.module';
 import { LocationsModule } from './locations/locations.module';
@@ -24,27 +25,29 @@ import { VideoTechnologiesModule } from './video-technologies/video-technologies
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    AudioTechnologiesModule,
     DatabaseModule,
-    UsersModule,
-    TicketsModule,
+    FilesModule,
+    GenresModule,
+    LanguagesModule,
+    LocationsModule,
+    LoungesModule,
     PlacesModule,
+    SeatsModule,
     SessionPlacesModule,
     SessionsModule,
-    SeatsModule,
-    LoungesModule,
-    SpacesModule,
-    LocationsModule,
-    ShowsModule,
-    TranslationsModule,
-    TranslationLanguagesModule,
-    GenresModule,
-    AudioTechnologiesModule,
-    VideoTechnologiesModule,
-    LanguagesModule,
-    ShowTypesModule,
     ShowPhotosModule,
+    ShowTypesModule,
+    ShowsModule,
+    SpacesModule,
+    TicketsModule,
+    TranslationLanguagesModule,
+    TranslationsModule,
+    UsersModule,
+    VideoTechnologiesModule,
   ],
   controllers: [],
   providers: [],
+  exports: [],
 })
 export class AppModule {}

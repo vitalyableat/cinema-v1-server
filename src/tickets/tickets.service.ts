@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
 
+import { User } from '../users/entities/user.entity';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { Ticket } from './entities/ticket.entity';
@@ -12,6 +13,8 @@ export class TicketsService {
   constructor(
     @InjectRepository(Ticket)
     private readonly ticketsRepository: Repository<Ticket>,
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
     private readonly entityManager: EntityManager,
   ) {}
 
@@ -31,6 +34,8 @@ export class TicketsService {
   async update(id: number, updateTicketDto: UpdateTicketDto): Promise<Ticket> {
     const ticket = await this.ticketsRepository.findOneBy({ id });
 
-    return await this.entityManager.save(new Ticket({ ...ticket, ...updateTicketDto }));
+    const user = await this.usersRepository.findOneBy({ id: updateTicketDto.userId });
+
+    return await this.entityManager.save(new Ticket({ ...ticket, ...updateTicketDto, user }));
   }
 }
