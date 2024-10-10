@@ -1,1 +1,5 @@
-export class CreateSpaceDto {}
+export class CreateSpaceDto {
+  name: string;
+  address: string;
+  locationId: number;
+}

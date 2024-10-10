@@ -15,9 +15,9 @@ export class Ticket extends AbstractEntity<Ticket> {
   @JoinColumn()
   place: SessionPlace;
 
-  @ManyToOne(() => User, (user) => user.tickets)
-  user: User;
-
   @ManyToOne(() => Session, (session) => session.tickets)
   session: Session;
+
+  @ManyToOne(() => User, (user) => user.tickets)
+  user: User;
 }

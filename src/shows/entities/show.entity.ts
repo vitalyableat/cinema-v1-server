@@ -6,7 +6,7 @@ import { Genre } from '../../genres/entities/genre.entity';
 import { Language } from '../../languages/entities/language.entity';
 import { Session } from '../../sessions/entities/session.entity';
 import { ShowPhoto } from '../../show-photos/entities/show-photo.entity';
-import { ShowType } from '../../show-type/entities/show-type.entity';
+import { ShowType } from '../../show-types/entities/show-type.entity';
 import { VideoTechnology } from '../../video-technologies/entities/video-technology.entity';
 
 @Entity()

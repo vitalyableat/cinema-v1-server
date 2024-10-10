@@ -15,10 +15,10 @@ export class User extends AbstractEntity<User> {
   @Column()
   surname: string;
 
-  @Column()
+  @Column({ unique: true })
   phone: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()

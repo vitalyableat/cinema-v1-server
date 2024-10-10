@@ -12,7 +12,7 @@ import { Seat } from './src/seats/entities/seat.entity';
 import { SessionPlace } from './src/session-places/entities/session-place.entity';
 import { Session } from './src/sessions/entities/session.entity';
 import { ShowPhoto } from './src/show-photos/entities/show-photo.entity';
-import { ShowType } from './src/show-type/entities/show-type.entity';
+import { ShowType } from './src/show-types/entities/show-type.entity';
 import { Show } from './src/shows/entities/show.entity';
 import { Space } from './src/spaces/entities/space.entity';
 import { Ticket } from './src/tickets/entities/ticket.entity';

@@ -1,29 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { TranslationLanguagesService } from './translation-languages.service';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+
 import { CreateTranslationLanguageDto } from './dto/create-translation-language.dto';
 import { UpdateTranslationLanguageDto } from './dto/update-translation-language.dto';
+import { TranslationLanguage } from './entities/translation-language.entity';
+import { TranslationLanguagesService } from './translation-languages.service';
 
 @Controller('translation-languages')
 export class TranslationLanguagesController {
   constructor(private readonly translationLanguagesService: TranslationLanguagesService) {}
 
   @Post()
-  create(@Body() createTranslationLanguageDto: CreateTranslationLanguageDto) {
+  create(@Body() createTranslationLanguageDto: CreateTranslationLanguageDto): Promise<TranslationLanguage> {
     return this.translationLanguagesService.create(createTranslationLanguageDto);
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<TranslationLanguage[]> {
     return this.translationLanguagesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.translationLanguagesService.findOne(+id);
-  }
-
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTranslationLanguageDto: UpdateTranslationLanguageDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateTranslationLanguageDto: UpdateTranslationLanguageDto,
+  ): Promise<TranslationLanguage> {
     return this.translationLanguagesService.update(+id, updateTranslationLanguageDto);
   }
 

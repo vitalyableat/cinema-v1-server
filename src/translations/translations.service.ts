@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { EntityManager, Repository } from 'typeorm';
+
 import { CreateTranslationDto } from './dto/create-translation.dto';
 import { UpdateTranslationDto } from './dto/update-translation.dto';
+import { Translation } from './entities/translation.entity';
 
 @Injectable()
 export class TranslationsService {
-  create(createTranslationDto: CreateTranslationDto) {
-    return 'This action adds a new translation';
+  constructor(
+    @InjectRepository(Translation)
+    private readonly translationsRepository: Repository<Translation>,
+    private readonly entityManager: EntityManager,
+  ) {}
+
+  async create(createTranslationDto: CreateTranslationDto): Promise<Translation> {
+    const translation = new Translation(createTranslationDto);
+
+    return await this.entityManager.save(translation);
   }
 
-  findAll() {
-    return `This action returns all translations`;
+  async findOne(key: string): Promise<Translation> {
+    return await this.translationsRepository.findOneBy({ key });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} translation`;
+  async update(key: string, updateTranslationDto: UpdateTranslationDto): Promise<Translation> {
+    return await this.entityManager.save(new Translation({ key, ...updateTranslationDto }));
   }
 
-  update(id: number, updateTranslationDto: UpdateTranslationDto) {
-    return `This action updates a #${id} translation`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} translation`;
+  async remove(key: string) {
+    await this.translationsRepository.delete(key);
   }
 }

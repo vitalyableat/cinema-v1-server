@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import { AudioTechnologiesModule } from './audio-technologies/audio-technologies.module';
 import { DatabaseModule } from './database/database.module';
+import { FilesModule } from './files/files.module';
 import { GenresModule } from './genres/genres.module';
 import { LanguagesModule } from './languages/languages.module';
 import { LocationsModule } from './locations/locations.module';
@@ -12,7 +13,7 @@ import { SeatsModule } from './seats/seats.module';
 import { SessionPlacesModule } from './session-places/session-places.module';
 import { SessionsModule } from './sessions/sessions.module';
 import { ShowPhotosModule } from './show-photos/show-photos.module';
-import { ShowTypeModule } from './show-type/show-type.module';
+import { ShowTypesModule } from './show-types/show-types.module';
 import { ShowsModule } from './shows/shows.module';
 import { SpacesModule } from './spaces/spaces.module';
 import { TicketsModule } from './tickets/tickets.module';
@@ -24,27 +25,29 @@ import { VideoTechnologiesModule } from './video-technologies/video-technologies
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    AudioTechnologiesModule,
     DatabaseModule,
-    UsersModule,
-    TicketsModule,
+    FilesModule,
+    GenresModule,
+    LanguagesModule,
+    LocationsModule,
+    LoungesModule,
     PlacesModule,
+    SeatsModule,
     SessionPlacesModule,
     SessionsModule,
-    SeatsModule,
-    LoungesModule,
-    SpacesModule,
-    LocationsModule,
-    ShowsModule,
-    TranslationsModule,
-    TranslationLanguagesModule,
-    GenresModule,
-    AudioTechnologiesModule,
-    VideoTechnologiesModule,
-    LanguagesModule,
-    ShowTypeModule,
     ShowPhotosModule,
+    ShowTypesModule,
+    ShowsModule,
+    SpacesModule,
+    TicketsModule,
+    TranslationLanguagesModule,
+    TranslationsModule,
+    UsersModule,
+    VideoTechnologiesModule,
   ],
   controllers: [],
   providers: [],
+  exports: [],
 })
 export class AppModule {}

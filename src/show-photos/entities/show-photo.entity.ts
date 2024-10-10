@@ -6,7 +6,7 @@ import { Show } from '../../shows/entities/show.entity';
 @Entity()
 export class ShowPhoto extends AbstractEntity<ShowPhoto> {
   @Column()
-  url: string;
+  img: string;
 
   @ManyToOne(() => Show, (show) => show.photos)
   show: Show;

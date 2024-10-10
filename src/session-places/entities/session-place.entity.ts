@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 import { AbstractEntity } from '../../database/abstract.entity';
 import { Lounge } from '../../lounges/entities/lounge.entity';
@@ -19,8 +19,7 @@ export class SessionPlace extends AbstractEntity<SessionPlace> {
   @Column({ type: 'decimal', scale: 2 })
   price: number;
 
-  @OneToOne(() => Session)
-  @JoinColumn()
+  @ManyToOne(() => Session)
   session: Session;
 
   @ManyToOne(() => Lounge, (lounge) => lounge.sessionPlaces)

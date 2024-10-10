@@ -1,4 +1,8 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateSeatDto } from './create-seat.dto';
+import { Express } from 'express';
 
-export class UpdateSeatDto extends PartialType(CreateSeatDto) {}
+export class UpdateSeatDto {
+  name: string;
+  description: string;
+  price: number;
+  img: Express.Multer.File;
+}
